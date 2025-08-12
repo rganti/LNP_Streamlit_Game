@@ -396,22 +396,21 @@ def encode_design(d: LNPDesign) -> np.ndarray:
 
 def target_score(props: LNPProps, targets: Dict[str, object]) -> float:
     s = 0.0
-    # if "stability_min" in targets:
-    s += props.stability  # min(1.0, max(0.0, (props.stability) / 20))
-    # if "potency_min" in targets:
-    s += props.potency  # min(1.0, max(0.0, (props.potency) / 20))
-    # if "toxicity_max" in targets:
-    s -= (
-        props.toxicity
-    )  # min(1.0, max(0.0, (targets["toxicity_max"] - props.toxicity) / 15))
-    # if "size_range" in targets:
-    lo, hi = 65, 90
-    s += 0.7 * (
-        1.0
-        if (lo <= props.size_nm <= hi)
-        else 1.0
-        - min(abs((props.size_nm - (lo + hi) / 2)) / ((hi - lo) / 2 + 1e-9), 1.0)
-    )
+    if "stability_min" in targets:
+        s += min(1.0, max(0.0, (props.stability - targets["stability_min"]) / 20))
+    if "potency_min" in targets:
+        s += min(1.0, max(0.0, (props.potency - targets["potency_min"]) / 20))
+    if "toxicity_max" in targets:
+        s += min(1.0, max(0.0, (targets["toxicity_max"] - props.toxicity) / 15))
+    if "size_range" in targets:
+        lo, hi = targets["size_range"]
+        inside = (
+            1.0
+            if (lo <= props.size_nm <= hi)
+            else 1.0
+            - min(abs((props.size_nm - (lo + hi) / 2)) / ((hi - lo) / 2 + 1e-9), 1.0)
+        )
+        s += 0.7 * inside
     return s  # higher is better
 
 
