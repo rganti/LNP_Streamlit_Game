@@ -410,7 +410,7 @@ def target_score(props: LNPProps, targets: Dict[str, object]) -> float:
             else 1.0
             - min(abs((props.size_nm - (lo + hi) / 2)) / ((hi - lo) / 2 + 1e-9), 1.0)
         )
-        s += 0.7 * inside
+        s += inside
     return s  # higher is better
 
 
@@ -425,7 +425,7 @@ def smart_hints_ML(
     topk: int = 3,
 ):
     hist = st.session_state.get("history", [])
-    if len(hist) < 3:
+    if len(hist) < 2:
         return []
 
     # Training data from history
@@ -458,20 +458,20 @@ def smart_hints_ML(
         props = predict_properties(d)
         candidates.append((ucb, d, props))
 
-    # Diversity boost vs last attempt
-    last_vec = encode_design(hist[-1]["design"])
-    last_norm = np.linalg.norm(last_vec) + 1e-9
-    diversified = []
-    for ucb, d, p in candidates:
-        vec = encode_design(d)
-        cos_sim = float(
-            np.dot(vec, last_vec) / (np.linalg.norm(vec) * last_norm + 1e-9)
-        )
-        div = 0.15 * (1.0 - cos_sim)  # prefer different from last try
-        diversified.append((ucb + div, d, p))
+    # # Diversity boost vs last attempt
+    # last_vec = encode_design(hist[-1]["design"])
+    # last_norm = np.linalg.norm(last_vec) + 1e-9
+    # diversified = []
+    # for ucb, d, p in candidates:
+    #     vec = encode_design(d)
+    #     cos_sim = float(
+    #         np.dot(vec, last_vec) / (np.linalg.norm(vec) * last_norm + 1e-9)
+    #     )
+    #     div = 0.15 * (1.0 - cos_sim)  # prefer different from last try
+    #     diversified.append((ucb + div, d, p))
 
-    diversified.sort(key=lambda t: t[0], reverse=True)
-    return diversified[:topk]
+    candidates.sort(key=lambda t: t[0], reverse=True)
+    return candidates[:topk]
 
 
 # ----------------------------
@@ -572,28 +572,28 @@ with left:
             st.rerun()
 
 with right:
-    st.subheader("🧠 Smart Hints (learned from your attempts)")
-    disabled = len(st.session_state.history) < 4
-    if st.button(
-        "Smart Hints (ML) 🔮",
-        disabled=disabled,
-        help="Learns from your history; enabled after a few attempts.",
-    ):
-        suggestions = smart_hints_ML(
-            st.session_state.inventory, targets, beta=1.0, topk=3
-        )
-        if suggestions:
-            for i, (score, d, p) in enumerate(suggestions, 1):
-                with st.container(border=True):
-                    st.markdown(f"**ML Hint #{i} — score {score:.2f}**")
-                    st.markdown(
-                        f"- IH: `{d.IH.name}`  \n- HL: `{d.HL.name}`  \n- CH: `{d.CH.name}`  \n- PG: `{d.PG.name}`"
-                    )
-                    st.caption(
-                        f"Size {p.size_nm:.1f} nm — Stability {p.stability:.1f} | Potency {p.potency:.1f} | Toxicity {p.toxicity:.1f}"
-                    )
-        else:
-            st.caption("Not enough history yet. Make a few attempts first.")
+    # st.subheader("🧠 Smart Hints (learned from your attempts)")
+    # disabled = len(st.session_state.history) < 2
+    # if st.button(
+    #     "Smart Hints (ML) 🔮",
+    #     disabled=disabled,
+    #     help="Learns from your history; enabled after a few attempts.",
+    # ):
+    #     suggestions = smart_hints_ML(
+    #         st.session_state.inventory, targets, beta=1.0, topk=3
+    #     )
+    #     if suggestions:
+    #         for i, (score, d, p) in enumerate(suggestions, 1):
+    #             with st.container(border=True):
+    #                 st.markdown(f"**ML Hint #{i} — score {score:.2f}**")
+    #                 st.markdown(
+    #                     f"- IH: `{d.IH.name}`  \n- HL: `{d.HL.name}`  \n- CH: `{d.CH.name}`  \n- PG: `{d.PG.name}`"
+    #                 )
+    #                 st.caption(
+    #                     f"Size {p.size_nm:.1f} nm — Stability {p.stability:.1f} | Potency {p.potency:.1f} | Toxicity {p.toxicity:.1f}"
+    #                 )
+    #     else:
+    #         st.caption("Not enough history yet. Make a few attempts first.")
 
     # st.subheader("🧰 Tools & Hints")
     # if st.button("Suggest Combos (Hint) 💡"):
