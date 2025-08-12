@@ -425,7 +425,7 @@ def smart_hints_ML(
     topk: int = 3,
 ):
     hist = st.session_state.get("history", [])
-    if len(hist) < 4:
+    if len(hist) < 1:
         return []
 
     # Training data from history
