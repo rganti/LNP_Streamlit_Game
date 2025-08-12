@@ -301,7 +301,7 @@ def init_state():
 def reset_level(idx: int):
     st.session_state.level_idx = idx
     st.session_state.attempts_left = LEVELS[idx]["attempts"]
-    # st.session_state.history = []
+    st.session_state.history = []
 
 
 def next_level():
@@ -607,7 +607,7 @@ with right:
     #     else:
     #         st.write("Inventory incomplete for hints.")
 
-    st.divider()
+    # st.divider()
 
     st.subheader("📜 History")
     if st.session_state.history:
