@@ -555,9 +555,14 @@ with left:
         m3.metric("Toxicity (lower better)", f"{props.toxicity:.1f}")
 
         if last["success"]:
+            if not st.session_state.get("celebrated", False):
+                st.balloons()
+                st.session_state.celebrated = True
+
             st.success("🎉 Targets met! Advance to the next level.")
             if st.button("Next Level ▶️"):
                 next_level()
+                st.session_state.celebrated = False
                 st.rerun()
         else:
             st.info("Keep iterating or try a hint.")
