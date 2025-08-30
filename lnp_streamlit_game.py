@@ -66,7 +66,7 @@ class Component:
             extra.append(f"chol {self.chol_frac:.2f}")
         elif self.kind == "PG":
             extra.append("")
-            # extra.append(f"PEG {self.peg_mw}Da/frac {self.peg_mol_frac:.3f}")
+            extra.append(f"frac {self.peg_mol_frac:.3f}")
         return f"{self.name} — " + " | ".join(extra)
 
 
