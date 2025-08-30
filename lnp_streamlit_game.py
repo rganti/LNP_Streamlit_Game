@@ -58,14 +58,15 @@ class Component:
         extra = []
         if self.kind == "IH":
             extra.append(f"pKa {self.pKa:.2f}")
-            extra.append(f"C{self.tail_len}/unsat {self.unsat}")
+            # extra.append(f"C{self.tail_len}/unsat {self.unsat}")
         elif self.kind == "HL":
             extra.append(f"helper {self.helper_strength:.2f}")
-            extra.append(f"C{self.tail_len}/unsat {self.unsat}")
+            # extra.append(f"C{self.tail_len}/unsat {self.unsat}")
         elif self.kind == "CH":
             extra.append(f"chol {self.chol_frac:.2f}")
         elif self.kind == "PG":
-            extra.append(f"PEG {self.peg_mw}Da/frac {self.peg_mol_frac:.3f}")
+            extra.append("")
+            # extra.append(f"PEG {self.peg_mw}Da/frac {self.peg_mol_frac:.3f}")
         return f"{self.name} — " + " | ".join(extra)
 
 
@@ -91,17 +92,17 @@ class LNPProps:
 
 IONIZABLE_HEADS = [
     Component(
-        "IH", "AminoA-6.2", pKa=6.2, tail_len=16, unsat=1, note="Lean acidic; mid-tail"
+        "IH", "Ionia", pKa=6.2, tail_len=16, unsat=1, note="Lean acidic; mid-tail"
     ),
     Component(
-        "IH", "AminoB-6.5", pKa=6.5, tail_len=18, unsat=1, note="Sweet spot pKa ~6.5"
+        "IH", "Voltron", pKa=6.5, tail_len=18, unsat=1, note="Sweet spot pKa ~6.5"
     ),
     Component(
-        "IH", "AminoC-6.8", pKa=6.8, tail_len=14, unsat=0, note="Basic edge; saturated"
+        "IH", "Sparklite", pKa=6.8, tail_len=14, unsat=0, note="Basic edge; saturated"
     ),
     Component(
         "IH",
-        "AminoD-7.0",
+        "Barbie",
         pKa=7.0,
         tail_len=18,
         unsat=2,
@@ -109,7 +110,7 @@ IONIZABLE_HEADS = [
     ),
     Component(
         "IH",
-        "AminoE-6.4",
+        "Goldilocks",
         pKa=6.4,
         tail_len=16,
         unsat=0,
@@ -120,7 +121,7 @@ IONIZABLE_HEADS = [
 HELPER_LIPIDS = [
     Component(
         "HL",
-        "DSPC-like",
+        "Yoga Pants",
         helper_strength=0.40,
         tail_len=18,
         unsat=0,
@@ -128,7 +129,7 @@ HELPER_LIPIDS = [
     ),
     Component(
         "HL",
-        "DOPE-like",
+        "Spandex",
         helper_strength=0.85,
         tail_len=18,
         unsat=2,
@@ -136,7 +137,7 @@ HELPER_LIPIDS = [
     ),
     Component(
         "HL",
-        "DLin-Helper",
+        "Silk Road",
         helper_strength=0.75,
         tail_len=18,
         unsat=2,
@@ -144,7 +145,7 @@ HELPER_LIPIDS = [
     ),
     Component(
         "HL",
-        "DMPC-like",
+        "Skinny Jeans",
         helper_strength=0.50,
         tail_len=14,
         unsat=0,
@@ -153,16 +154,16 @@ HELPER_LIPIDS = [
 ]
 
 CHOLESTEROLS = [
-    Component("CH", "Chol-Low", chol_frac=0.10, note="Less rigid; low stability"),
-    Component("CH", "Chol-Std", chol_frac=0.20, note="Baseline stability"),
-    Component("CH", "Chol-High", chol_frac=0.30, note="More rigid; high stability"),
+    Component("CH", "Thor", chol_frac=0.10, note="Less rigid; low stability"),
+    Component("CH", "Captain America", chol_frac=0.20, note="Baseline stability"),
+    Component("CH", "Iron Man", chol_frac=0.30, note="More rigid; high stability"),
 ]
 
 PEGS = [
-    Component("PG", "PEG-1k", peg_mw=1000, peg_mol_frac=0.015, note="Short stealth"),
-    Component("PG", "PEG-2k", peg_mw=2000, peg_mol_frac=0.020, note="Balanced stealth"),
-    Component("PG", "PEG-5k", peg_mw=5000, peg_mol_frac=0.030, note="Long stealth"),
-    Component("PG", "PEG-550", peg_mw=550, peg_mol_frac=0.010, note="Very short"),
+    Component("PG", "FBI", peg_mw=1000, peg_mol_frac=0.015, note="Short stealth"),
+    Component("PG", "CIA", peg_mw=2000, peg_mol_frac=0.020, note="Balanced stealth"),
+    Component("PG", "NSA", peg_mw=5000, peg_mol_frac=0.030, note="Long stealth"),
+    Component("PG", "Area51", peg_mw=550, peg_mol_frac=0.010, note="Very short"),
 ]
 
 
