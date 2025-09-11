@@ -492,6 +492,12 @@ if "game_won" in st.session_state and st.session_state.game_won:
     if st.button("Replay from Level 1"):
         st.session_state.pop("game_won")
         reset_level(0)
+        st.session_state.pop("celebrated", None)
+        st.session_state.pop("just_won", None)
+        st.session_state["history"] = []  # or level/global history resets as needed
+        for k in ("sel_ih", "sel_hl", "sel_ch", "sel_pg"):
+            st.session_state.pop(k, None)
+        st.rerun()
 
 level = LEVELS[st.session_state.level_idx]
 targets = level["targets"]
