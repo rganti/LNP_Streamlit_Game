@@ -121,35 +121,35 @@ IONIZABLE_HEADS = [
 HELPER_LIPIDS = [
     Component(
         "HL",
-        "Yoga Pants",
+        "Tempur Pedic",
         helper_strength=0.40,
         tail_len=18,
         unsat=0,
-        note="Structural helper",
+        note="Feeling firm",
     ),
     Component(
         "HL",
-        "Spandex",
+        "Beauty Rest Black",
         helper_strength=0.85,
         tail_len=18,
         unsat=2,
-        note="Cone-shaped fusogen",
+        note="Feeling soft",
     ),
     Component(
         "HL",
-        "Silk Road",
+        "Casper",
         helper_strength=0.75,
         tail_len=18,
         unsat=2,
-        note="Unsat, fluid",
+        note="Feeling cool",
     ),
     Component(
         "HL",
-        "Skinny Jeans",
+        "Sleep Number",
         helper_strength=0.50,
         tail_len=14,
         unsat=0,
-        note="Short saturated",
+        note="Feeling comfy",
     ),
 ]
 
