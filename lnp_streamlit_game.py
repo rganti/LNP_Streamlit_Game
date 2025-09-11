@@ -490,14 +490,18 @@ init_state()
 if "game_won" in st.session_state and st.session_state.game_won:
     st.success("🏆 You cleared all levels! Want to replay Level 1?")
     if st.button("Replay from Level 1"):
-        st.session_state.pop("game_won")
-        reset_level(0)
-        st.session_state.pop("celebrated", None)
-        st.session_state.pop("just_won", None)
-        st.session_state["history"] = []  # or level/global history resets as needed
-        for k in ("sel_ih", "sel_hl", "sel_ch", "sel_pg"):
-            st.session_state.pop(k, None)
-        st.rerun()
+        st.session_state.clear()  # wipe all session keys
+        init_state()  # re-initialize your defaults
+        st.rerun()  # redraw from a clean slate
+    st.stop()  # prevent rest of the app from rendering while on win screen
+    # st.session_state.pop("game_won")
+    # reset_level(0)
+    # st.session_state.pop("celebrated", None)
+    # st.session_state.pop("just_won", None)
+    # st.session_state["history"] = []  # or level/global history resets as needed
+    # for k in ("sel_ih", "sel_hl", "sel_ch", "sel_pg"):
+    #     st.session_state.pop(k, None)
+    # st.rerun()
 
 level = LEVELS[st.session_state.level_idx]
 targets = level["targets"]
