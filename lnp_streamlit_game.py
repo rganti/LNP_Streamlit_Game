@@ -561,11 +561,31 @@ with left:
         last = st.session_state.history[-1]
         props = last["props"]
         st.markdown("### Latest Evaluation")
-        st.metric("Size (nm)", f"{props.size_nm:.1f}")
+
+        # Targets for reference
+        size_target = targets.get("size_range", (40, 140))
+        stab_target = targets.get("stability_min", -1)
+        pot_target = targets.get("potency_min", -1)
+        tox_target = targets.get("toxicity_max", 999)
+
+        # Check if each metric meets its target
+        size_ok = size_target[0] <= props.size_nm <= size_target[1]
+        stab_ok = props.stability >= stab_target
+        pot_ok = props.potency >= pot_target
+        tox_ok = props.toxicity <= tox_target
+
+        # Display colored metrics using ✅ / ❌
+        st.metric("Size (nm)", f"{props.size_nm:.1f} " + ("✅" if size_ok else "❌"))
         m1, m2, m3 = st.columns(3)
-        m1.metric("Stability", f"{props.stability:.1f}")
-        m2.metric("Potency", f"{props.potency:.1f}")
-        m3.metric("Toxicity (lower better)", f"{props.toxicity:.1f}")
+        m1.metric("Stability", f"{props.stability:.1f} " + ("✅" if stab_ok else "❌"))
+        m2.metric("Potency", f"{props.potency:.1f} " + ("✅" if pot_ok else "❌"))
+        m3.metric("Toxicity", f"{props.toxicity:.1f} " + ("✅" if tox_ok else "❌"))
+
+        # st.metric("Size (nm)", f"{props.size_nm:.1f}")
+        # m1, m2, m3 = st.columns(3)
+        # m1.metric("Stability", f"{props.stability:.1f}")
+        # m2.metric("Potency", f"{props.potency:.1f}")
+        # m3.metric("Toxicity (lower better)", f"{props.toxicity:.1f}")
 
         if last["success"]:
             if not st.session_state.get("celebrated", False):
