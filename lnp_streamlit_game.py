@@ -484,7 +484,7 @@ st.title("🧪 Molecule Merge — LNP Lab")
 st.caption(
     "Assemble an LNP from four components to hit the targets. Edutainment, not a simulator."
 )
-st.image("LNP_Image.png", caption="Schematic of an LNP", width=650)
+st.image("LNP_Image.png", caption="Schematic of an LNP", width=450)
 
 
 init_state()
@@ -598,7 +598,7 @@ with left:
                 st.session_state.celebrated = False
                 st.rerun()
         else:
-            st.info("Keep iterating or try a hint.")
+            st.info("Keep iterating or check out the trends in the left panel.")
 
     # Attempts exhausted?
     if st.session_state.attempts_left == 0 and (
