@@ -484,7 +484,7 @@ st.title("🧪 Molecule Merge — LNP Lab")
 st.caption(
     "Assemble an LNP from four components to hit the targets. Edutainment, not a simulator."
 )
-st.image("LNP_Image.png", caption="Schematic of an LNP", width=450)
+st.image("LNP_Image.png", caption="Schematic of an LNP from Kularatne et al, Pharmaceuticals (2022)", width=450)
 
 
 init_state()
