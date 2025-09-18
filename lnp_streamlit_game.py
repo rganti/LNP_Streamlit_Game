@@ -485,7 +485,7 @@ st.caption(
     "Assemble an LNP from four components to hit the targets. Edutainment, not a simulator."
 )
 st.image("LNP_Image.png", caption="Schematic of an LNP from Kularatne et al, Pharmaceuticals (2022)", width=450)
-
+st.caption("Hints: Use the trends on the left panel to meet the targets!")
 
 init_state()
 
